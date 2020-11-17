@@ -2,7 +2,7 @@
 <UnityGameFramework>
   <ResourceBuilder>
     <Settings>
-      <InternalResourceVersion>0</InternalResourceVersion>
+      <InternalResourceVersion>2</InternalResourceVersion>
       <Platforms>1</Platforms>
       <ZipSelected>True</ZipSelected>
       <UncompressedAssetBundleSelected>False</UncompressedAssetBundleSelected>
@@ -16,7 +16,7 @@
       <OutputFullSelected>True</OutputFullSelected>
       <OutputPackedSelected>True</OutputPackedSelected>
       <BuildEventHandlerTypeName>StarForce.Editor.StarForceBuildEventHandler</BuildEventHandlerTypeName>
-      <OutputDirectory></OutputDirectory>
+      <OutputDirectory>C:/Learn/打包路径</OutputDirectory>
     </Settings>
   </ResourceBuilder>
 </UnityGameFramework>
