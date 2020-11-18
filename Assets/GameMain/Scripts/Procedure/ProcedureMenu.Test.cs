@@ -14,7 +14,7 @@ using System.Xml;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
-namespace StarForce
+namespace GameMain
 {
     public partial class ProcedureMenu : ProcedureBase
     {
@@ -24,7 +24,7 @@ namespace StarForce
             GameEntry.Event.Subscribe(DownloadUpdateEventArgs.EventId, OnDownLoadUpdate);
             GameEntry.Event.Subscribe(DownloadSuccessEventArgs.EventId, OnDownloadSuccess);
             GameEntry.Event.Subscribe(WebRequestSuccessEventArgs.EventId, OnWebrequestSuc);
-            StartDownLoad();
+            //StartDownLoad();
         }
 
         private void TestUpdate(float elapseSeconds, float realElapseSeconds)
