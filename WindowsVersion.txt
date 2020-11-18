@@ -1,0 +1,12 @@
+{
+"ForceGameUpdate": false,
+"LatestGameVersion": "0.1.0",
+"InternalGameVersion": 1,
+"InternalResourceVersion": 9,
+"GameUpdateUrl": "http://192.168.1.100/",
+"VersionListLength": 7158,
+"VersionListHashCode": 404385728,
+"VersionListZipLength": 2618,
+"VersionListZipHashCode": -1564979253,
+"END_ OF JSON". ""
+}

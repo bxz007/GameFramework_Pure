@@ -11,7 +11,7 @@ using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedure
 
 namespace StarForce
 {
-    public class ProcedureMenu : ProcedureBase
+    public partial class ProcedureMenu : ProcedureBase
     {
         private bool m_StartGame = false;
         private MenuForm m_MenuForm = null;
@@ -37,6 +37,8 @@ namespace StarForce
 
             m_StartGame = false;
             GameEntry.UI.OpenUIForm(UIFormId.MenuForm, this);
+
+            InitTest();
         }
 
         protected override void OnLeave(ProcedureOwner procedureOwner, bool isShutdown)
@@ -50,12 +52,13 @@ namespace StarForce
                 m_MenuForm.Close(isShutdown);
                 m_MenuForm = null;
             }
+            ShutdownTest();
         }
 
         protected override void OnUpdate(ProcedureOwner procedureOwner, float elapseSeconds, float realElapseSeconds)
         {
             base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
-
+            TestUpdate(elapseSeconds,realElapseSeconds);
             if (m_StartGame)
             {
                 procedureOwner.SetData<VarInt>("NextSceneId", GameEntry.Config.GetInt("Scene.Main"));

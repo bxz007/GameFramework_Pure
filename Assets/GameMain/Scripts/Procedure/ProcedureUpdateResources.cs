@@ -175,7 +175,7 @@ namespace StarForce
                     return;
                 }
             }
-
+            Debug.LogError("当前正在下载"+ ne.Name + Time.time);
             m_UpdateLengthData.Add(new UpdateLengthData(ne.Name));
         }
 

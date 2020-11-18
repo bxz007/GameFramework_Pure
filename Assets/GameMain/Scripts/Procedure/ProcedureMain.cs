@@ -5,7 +5,9 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
+using GameFramework.Event;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
@@ -70,8 +72,7 @@ namespace StarForce
 
         protected override void OnUpdate(ProcedureOwner procedureOwner, float elapseSeconds, float realElapseSeconds)
         {
-            base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
-
+            base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);          
             if (m_CurrentGame != null && !m_CurrentGame.GameOver)
             {
                 m_CurrentGame.Update(elapseSeconds, realElapseSeconds);

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FileList> 
+  <Files> 
+    <Value Name="Test1.txt"/>  
+    <Value Name="Test2.txt"/>  
+    <Value Name="Test/Test3.txt"/> 
+  </Files> 
+</FileList>
