@@ -26,6 +26,14 @@ namespace GameMain
             //测试DR数据
             IDataTable<DRTestDataTable> dt = GameEntry.DataTable.GetDataTable<DRTestDataTable>();
             DRTestDataTable dr = dt.GetDataRow(10000);
+
+            //测试定时器
+            GameEntry.TimerManager.AddTimer<int>(TestTimer, 10, 0.5f, 1, 10);
+        }
+
+        private void TestTimer(int TestInt)
+        {
+            Log.Info("定时器"+ TestInt);
         }
 
         private void TestUpdate(float elapseSeconds, float realElapseSeconds)
