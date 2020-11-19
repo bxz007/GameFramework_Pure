@@ -17,7 +17,7 @@ namespace GameMain
         private const string DataRowClassPrefixName = "GameMain.DR";
         internal static readonly char[] DataSplitSeparators = new char[] { '\t' };
         internal static readonly char[] DataTrimSeparators = new char[] { '\"' };
-
+        internal static readonly char[] DataArraySeparators = new char[] { ';' };
         public static void LoadDataTable(this DataTableComponent dataTableComponent, string dataTableName, string dataTableAssetName, object userData)
         {
             if (string.IsNullOrEmpty(dataTableName))
@@ -86,6 +86,53 @@ namespace GameMain
         {
             string[] splitedValue = value.Split(',');
             return new Vector4(float.Parse(splitedValue[0]), float.Parse(splitedValue[1]), float.Parse(splitedValue[2]), float.Parse(splitedValue[3]));
+        }
+
+
+
+        #region Array
+
+        public static string[] ParseStringArray(string value)
+        {
+            return value.Split(DataArraySeparators, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        /// <summary>
+        /// 转换int数组
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static int[] ParseInt32Array(string value)
+        {
+            string[] ses = value.Split(DataArraySeparators, StringSplitOptions.RemoveEmptyEntries);
+            int[] array = new int[ses.Length];
+            for (int i = 0; i < ses.Length; i++)
+            {
+                array[i] = int.Parse(ses[i]);
+            }
+            return array;
+        }
+
+        /// <summary>
+        /// 单精度 也就是Float
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static float[] ParseSingleArray(string value)
+        {
+            string[] ses = value.Split(DataArraySeparators, StringSplitOptions.RemoveEmptyEntries);
+            float[] array = new float[ses.Length];
+            for (int i = 0; i < ses.Length; i++)
+            {
+                array[i] = float.Parse(ses[i]);
+            }
+            return array;
+        }
+        #endregion
+
+        public static CampType ParseCampType(string value)
+        {
+            return (CampType)Enum.Parse(typeof(CampType), value);
         }
     }
 }

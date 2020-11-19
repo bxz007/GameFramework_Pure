@@ -20,6 +20,7 @@ namespace GameMain.Editor.DataTableTools
         private const string CommentLineSeparator = "#";
         private static readonly char[] DataSplitSeparators = new char[] { '\t' };
         private static readonly char[] DataTrimSeparators = new char[] { '\"' };
+        internal static readonly char[] DataArraySeparators = new char[] { ';' };
 
         private readonly string[] m_NameRow;
         private readonly string[] m_TypeRow;

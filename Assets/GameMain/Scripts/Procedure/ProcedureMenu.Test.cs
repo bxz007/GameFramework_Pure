@@ -5,6 +5,7 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
+using GameFramework.DataTable;
 using GameFramework.Event;
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,10 @@ namespace GameMain
         #region Test 下载
         private void InitTest()
         {
-            GameEntry.Event.Subscribe(DownloadUpdateEventArgs.EventId, OnDownLoadUpdate);
-            GameEntry.Event.Subscribe(DownloadSuccessEventArgs.EventId, OnDownloadSuccess);
-            GameEntry.Event.Subscribe(WebRequestSuccessEventArgs.EventId, OnWebrequestSuc);
-            //StartDownLoad();
+            InitDownLoad();
+            //测试DR数据
+            IDataTable<DRTestDataTable> dt = GameEntry.DataTable.GetDataTable<DRTestDataTable>();
+            DRTestDataTable dr = dt.GetDataRow(10000);
         }
 
         private void TestUpdate(float elapseSeconds, float realElapseSeconds)
@@ -33,6 +34,20 @@ namespace GameMain
         }
 
         private void ShutdownTest()
+        {
+            ShutdownDownLoad();
+        }
+
+        #region 下载
+        private void InitDownLoad()
+        {
+            GameEntry.Event.Subscribe(DownloadUpdateEventArgs.EventId, OnDownLoadUpdate);
+            GameEntry.Event.Subscribe(DownloadSuccessEventArgs.EventId, OnDownloadSuccess);
+            GameEntry.Event.Subscribe(WebRequestSuccessEventArgs.EventId, OnWebrequestSuc);
+            StartDownLoad();
+        }
+
+        private void ShutdownDownLoad()
         {
             GameEntry.Event.Unsubscribe(DownloadUpdateEventArgs.EventId, OnDownLoadUpdate);
             GameEntry.Event.Unsubscribe(DownloadSuccessEventArgs.EventId, OnDownloadSuccess);
@@ -87,7 +102,7 @@ namespace GameMain
             DownloadUpdateEventArgs ne = e as DownloadUpdateEventArgs;
             Log.Debug( "序号" + ne.SerialId + "  大小"+ne.CurrentLength/1024f);            
         }
-
+        #endregion
         #region XML   仅仅为了测试      
         public List<string> GetFileList(string xmlText)
         {

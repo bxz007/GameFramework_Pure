@@ -7,6 +7,7 @@
 
 using System;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 namespace GameMain
@@ -51,6 +52,46 @@ namespace GameMain
         public static Vector4 ReadVector4(this BinaryReader binaryReader)
         {
             return new Vector4(binaryReader.ReadSingle(), binaryReader.ReadSingle(), binaryReader.ReadSingle(), binaryReader.ReadSingle());
+        }
+
+        static BinaryFormatter serializer = new BinaryFormatter();
+        #region Array
+        public static int[] ReadInt32Array(this BinaryReader binaryReader)
+        {
+            //先读长度
+            int len = binaryReader.ReadInt32();
+            int[] array = new int[len];
+            for (int i = 0; i < len; i++)
+                array[i] = binaryReader.ReadInt32();
+            return array;
+        }
+
+        public static float[] ReadSingleArray(this BinaryReader binaryReader)
+        {
+            //先读长度
+            int len = binaryReader.ReadInt32();
+            float[] array = new float[len];
+            for (int i = 0; i < len; i++)
+                array[i] = binaryReader.ReadSingle();
+            return array;
+        }
+
+        public static string[] ReadStringArray(this BinaryReader binaryReader)
+        {
+            //先读长度
+            int len = binaryReader.ReadInt32();
+            string[] array = new string[len];
+            for (int i = 0; i < len; i++)
+                array[i] = binaryReader.ReadString();
+            return array;
+        }
+
+
+        #endregion
+        
+        public static GameMain.CampType ReadCampType(this BinaryReader binaryReader)
+        {
+            return (GameMain.CampType)(serializer.Deserialize(binaryReader.BaseStream));
         }
     }
 }

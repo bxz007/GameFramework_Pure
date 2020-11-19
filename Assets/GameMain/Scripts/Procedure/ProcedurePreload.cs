@@ -30,6 +30,7 @@ namespace GameMain
             "UIForm",
             "UISound",
             "Weapon",
+            "TestDataTable"
         };
 
         private Dictionary<string, bool> m_LoadedFlag = new Dictionary<string, bool>();
