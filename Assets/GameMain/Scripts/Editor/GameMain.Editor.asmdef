@@ -1,6 +1,10 @@
 {
-    "name": "UnityGameFramework.Runtime",
-    "references": [],
+    "name": "GameMain.Editor",
+    "references": [
+        "GUID:3c279fd625450ab49b24c241de8e80ef",
+        "GUID:a2d8a19598eca814496b089021d08d60",
+        "GUID:363c5eb08ff8e6a439b85e37b8c20d96"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

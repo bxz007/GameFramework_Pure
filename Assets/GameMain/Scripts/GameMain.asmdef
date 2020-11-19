@@ -1,6 +1,8 @@
 {
-    "name": "UnityGameFramework.Runtime",
-    "references": [],
+    "name": "GameMain",
+    "references": [
+        "GUID:363c5eb08ff8e6a439b85e37b8c20d96"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
