@@ -26,14 +26,26 @@ namespace GameMain
                 return;
             }
 
-            string[] splitedNames = dataTableName.Split('_');
-            if (splitedNames.Length > 2)
-            {
-                Log.Warning("Data table name is invalid.");
-                return;
-            }
+            //string[] splitedNames = dataTableName.Split('_');
+            //if (splitedNames.Length > 2)
+            //{
+            //    Log.Warning("Data table name is invalid.");
+            //    return;
+            //}
 
-            string dataRowClassName = DataRowClassPrefixName + splitedNames[0];
+            //string dataRowClassName = DataRowClassPrefixName + splitedNames[0];
+            //Type dataRowType = Type.GetType(dataRowClassName);
+            //if (dataRowType == null)
+            //{
+            //    Log.Warning("Can not get data row type with class name '{0}'.", dataRowClassName);
+            //    return;
+            //}
+
+            //判断是否带者路径 如果带了只取最后一个
+            string[] splitNames = dataTableName.Split('/');
+
+            string dataRowClassName = DataRowClassPrefixName + splitNames[splitNames.Length - 1];
+
             Type dataRowType = Type.GetType(dataRowClassName);
             if (dataRowType == null)
             {
@@ -41,7 +53,14 @@ namespace GameMain
                 return;
             }
 
-            string name = splitedNames.Length > 1 ? splitedNames[1] : null;
+            splitNames = dataTableName.Split('_');
+            if (splitNames.Length > 2)
+            {
+                Log.Warning("Data table name is invalid.");
+                return;
+            }
+
+            string name = splitNames.Length > 1 ? splitNames[1] : null;
             DataTableBase dataTable = dataTableComponent.CreateDataTable(dataRowType, name);
             dataTable.ReadData(dataTableAssetName, Constant.AssetPriority.DataTableAsset, userData);
         }

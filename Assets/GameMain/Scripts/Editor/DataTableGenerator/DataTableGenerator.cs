@@ -62,18 +62,27 @@ namespace GameMain.Editor.DataTableTools
             dataTableProcessor.SetCodeTemplate(CSharpCodeTemplateFileName, Encoding.UTF8);
             dataTableProcessor.SetCodeGenerator(DataTableCodeGenerator);
 
-            string csharpCodeFileName = Utility.Path.GetRegularPath(Path.Combine(CSharpCodePath, "DR" + dataTableName + ".cs"));
-            if (!dataTableProcessor.GenerateCodeFile(csharpCodeFileName, Encoding.UTF8, dataTableName) && File.Exists(csharpCodeFileName))
+            //判断是否带者路径 如果带了只取最后一个
+            string[] splitNames = dataTableName.Split('/');
+            string csharpCodeFileName = Path.Combine(CSharpCodePath, "DR" + splitNames[splitNames.Length - 1] + ".cs");
+            if (!dataTableProcessor.GenerateCodeFile(csharpCodeFileName, Encoding.UTF8, splitNames[splitNames.Length - 1]) && File.Exists(csharpCodeFileName))
             {
                 File.Delete(csharpCodeFileName);
             }
+
+            //string csharpCodeFileName = Utility.Path.GetRegularPath(Path.Combine(CSharpCodePath, "DR" + dataTableName + ".cs"));
+            //if (!dataTableProcessor.GenerateCodeFile(csharpCodeFileName, Encoding.UTF8, dataTableName) && File.Exists(csharpCodeFileName))
+            //{
+            //    File.Delete(csharpCodeFileName);
+            //}
         }
 
         private static void DataTableCodeGenerator(DataTableProcessor dataTableProcessor, StringBuilder codeContent, object userData)
         {
             string dataTableName = (string)userData;
 
-            codeContent.Replace("__DATA_TABLE_CREATE_TIME__", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            //直接将日期屏蔽
+            //codeContent.Replace("__DATA_TABLE_CREATE_TIME__", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             codeContent.Replace("__DATA_TABLE_NAME_SPACE__", "GameMain");
             codeContent.Replace("__DATA_TABLE_CLASS_NAME__", "DR" + dataTableName);
             codeContent.Replace("__DATA_TABLE_COMMENT__", dataTableProcessor.GetValue(0, 1) + "。");
