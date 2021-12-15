@@ -76,6 +76,8 @@ namespace GameMain
         private void OnDownloadSuccess(object sender, GameEventArgs e)
         {
             DownloadSuccessEventArgs ne = e as DownloadSuccessEventArgs;
+            if (ne.UserData == null)
+                return;
             Log.Debug("下载了"+ ne.UserData.ToString());
             waitLoadFiles.Remove(ne.UserData.ToString());
             if (waitLoadFiles.Count == 0)
@@ -89,20 +91,26 @@ namespace GameMain
         }
 
         //Test 下载东西
+
+        private const string downPath = "http://10.10.3.212/Platform_Windows/DownLoadTest/";
+        private const string downLoadPath = "E:/TestDownLoad/";
         private void StartDownLoad()
         {
+            if (!Directory.Exists(downLoadPath))
+            {
+                Directory.CreateDirectory(downLoadPath);
+            }
             //1,如果上次没下载完 会自动续传
             //2,单文件下载 
-            //GameEntry.Download.AddDownload(@"F:\TestDownLoad\abc.mp4", "http://192.168.1.96/abc.mp4","TestDownLoad");
+            GameEntry.Download.AddDownload(GameFramework.Utility.Path.GetRegularPath(downLoadPath + "abc.mp4"), GameFramework.Utility.Path.GetRegularPath(downPath + "abc.mp4"),"TestDownLoad");
             //文件夹下载 最好有个数据表存起来  先拉取这个数据表   FileList.xml
             Log.Debug("开始下载");  
-            GameEntry.WebRequest.AddWebRequest("http://192.168.1.96/DownLoadTest/FileList.xml");
-            GameEntry.Download.AddDownload(@"F:\TestDownLoad\abc.mp4", "http://192.168.1.96//DownLoadTest/abc.mp4","TestDownLoad");
+            GameEntry.WebRequest.AddWebRequest(GameFramework.Utility.Path.GetRegularPath(downPath +"/FileList.xml"));           
         }
 
         private void DownLoadFile(string filePath)
         {
-            GameEntry.Download.AddDownload(string.Format(@"F:\TestDownLoad\{0}", filePath), string.Format("http://192.168.1.96/DownLoadTest/{0}", filePath),filePath);
+            GameEntry.Download.AddDownload(GameFramework.Utility.Path.GetRegularPath(downLoadPath+filePath), GameFramework.Utility.Path.GetRegularPath(downPath+filePath),"fileList",filePath);
         }
 
         private void OnDownLoadUpdate(object sender, GameEventArgs e)
