@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------
 // Game Framework
-// Copyright © 2013-2020 Jiang Yin. All rights reserved.
+// Copyright © 2013-2021 Jiang Yin. All rights reserved.
 // Homepage: https://gameframework.cn/
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
@@ -80,10 +80,10 @@ namespace UnityGameFramework.Editor
                                 {
                                     int index = 0;
                                     string[] data = new string[webRequestInfos.Length + 1];
-                                    data[index++] = "WebRequest Uri,Serial Id,Priority,Status";
+                                    data[index++] = "WebRequest Uri,Serial Id,Tag,Priority,Status";
                                     foreach (TaskInfo webRequestInfo in webRequestInfos)
                                     {
-                                        data[index++] = Utility.Text.Format("{0},{1},{2},{3}", webRequestInfo.Description, webRequestInfo.SerialId.ToString(), webRequestInfo.Priority.ToString(), webRequestInfo.Status.ToString());
+                                        data[index++] = Utility.Text.Format("{0},{1},{2},{3},{4}", webRequestInfo.Description, webRequestInfo.SerialId, webRequestInfo.Tag ?? string.Empty, webRequestInfo.Priority, webRequestInfo.Status);
                                     }
 
                                     File.WriteAllLines(exportFileName, data, Encoding.UTF8);
@@ -91,7 +91,7 @@ namespace UnityGameFramework.Editor
                                 }
                                 catch (Exception exception)
                                 {
-                                    Debug.LogError(Utility.Text.Format("Export web request task CSV data to '{0}' failure, exception is '{1}'.", exportFileName, exception.ToString()));
+                                    Debug.LogError(Utility.Text.Format("Export web request task CSV data to '{0}' failure, exception is '{1}'.", exportFileName, exception));
                                 }
                             }
                         }
@@ -129,7 +129,7 @@ namespace UnityGameFramework.Editor
 
         private void DrawWebRequestInfo(TaskInfo webRequestInfo)
         {
-            EditorGUILayout.LabelField(webRequestInfo.Description, Utility.Text.Format("[SerialId]{0} [Priority]{1} [Status]{2}", webRequestInfo.SerialId.ToString(), webRequestInfo.Priority.ToString(), webRequestInfo.Status.ToString()));
+            EditorGUILayout.LabelField(webRequestInfo.Description, Utility.Text.Format("[SerialId]{0} [Tag]{1} [Priority]{2} [Status]{3}", webRequestInfo.SerialId, webRequestInfo.Tag ?? "<None>", webRequestInfo.Priority, webRequestInfo.Status));
         }
 
         private void RefreshTypeNames()

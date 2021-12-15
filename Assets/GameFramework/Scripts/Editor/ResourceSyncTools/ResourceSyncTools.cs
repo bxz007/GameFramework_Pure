@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------
 // Game Framework
-// Copyright © 2013-2020 Jiang Yin. All rights reserved.
+// Copyright © 2013-2021 Jiang Yin. All rights reserved.
 // Homepage: https://gameframework.cn/
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
@@ -20,7 +20,7 @@ namespace UnityGameFramework.Editor.ResourceTools
         private const float ButtonSpace = 5f;
         private ResourceSyncToolsController m_Controller = null;
 
-        [MenuItem("Game Framework/Resource Tools/Resource Sync Tools", false, 45)]
+        [MenuItem("Game Framework/Resource Tools/Resource Sync Tools", false, 44)]
         private static void Open()
         {
             ResourceSyncTools window = GetWindow<ResourceSyncTools>("Resource Sync Tools", true);
@@ -94,12 +94,12 @@ namespace UnityGameFramework.Editor.ResourceTools
 
         private void OnLoadingResource(int index, int count)
         {
-            EditorUtility.DisplayProgressBar("Loading Resources", Utility.Text.Format("Loading resources, {0}/{1} loaded.", index.ToString(), count.ToString()), (float)index / count);
+            EditorUtility.DisplayProgressBar("Loading Resources", Utility.Text.Format("Loading resources, {0}/{1} loaded.", index, count), (float)index / count);
         }
 
         private void OnLoadingAsset(int index, int count)
         {
-            EditorUtility.DisplayProgressBar("Loading Assets", Utility.Text.Format("Loading assets, {0}/{1} loaded.", index.ToString(), count.ToString()), (float)index / count);
+            EditorUtility.DisplayProgressBar("Loading Assets", Utility.Text.Format("Loading assets, {0}/{1} loaded.", index, count), (float)index / count);
         }
 
         private void OnCompleted()
@@ -109,7 +109,7 @@ namespace UnityGameFramework.Editor.ResourceTools
 
         private void OnResourceDataChanged(int index, int count, string assetName)
         {
-            EditorUtility.DisplayProgressBar("Processing Assets", Utility.Text.Format("({0}/{1}) {2}", index.ToString(), count.ToString(), assetName), (float)index / count);
+            EditorUtility.DisplayProgressBar("Processing Assets", Utility.Text.Format("({0}/{1}) {2}", index, count, assetName), (float)index / count);
         }
     }
 }

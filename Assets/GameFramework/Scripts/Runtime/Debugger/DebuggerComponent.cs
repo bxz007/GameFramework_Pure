@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------
 // Game Framework
-// Copyright © 2013-2020 Jiang Yin. All rights reserved.
+// Copyright © 2013-2021 Jiang Yin. All rights reserved.
 // Homepage: https://gameframework.cn/
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
@@ -34,6 +34,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         internal static readonly float DefaultWindowScale = 1f;
 
+        private static readonly TextEditor s_TextEditor = new TextEditor();
         private IDebuggerManager m_DebuggerManager = null;
         private Rect m_DragRect = new Rect(0f, 0f, float.MaxValue, 25f);
         private Rect m_IconRect = DefaultIconRect;
@@ -99,6 +100,7 @@ namespace UnityGameFramework.Runtime
             set
             {
                 m_DebuggerManager.ActiveWindow = value;
+                enabled = value;
             }
         }
 
@@ -176,25 +178,6 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            switch (m_ActiveWindow)
-            {
-                case DebuggerActiveWindowType.AlwaysOpen:
-                    ActiveWindow = true;
-                    break;
-
-                case DebuggerActiveWindowType.OnlyOpenWhenDevelopment:
-                    ActiveWindow = Debug.isDebugBuild;
-                    break;
-
-                case DebuggerActiveWindowType.OnlyOpenInEditor:
-                    ActiveWindow = Application.isEditor;
-                    break;
-
-                default:
-                    ActiveWindow = false;
-                    break;
-            }
-
             m_FpsCounter = new FpsCounter(0.5f);
         }
 
@@ -228,17 +211,30 @@ namespace UnityGameFramework.Runtime
             RegisterDebuggerWindow("Profiler/Memory/Font", m_RuntimeMemoryFontInformationWindow);
             RegisterDebuggerWindow("Profiler/Memory/TextAsset", m_RuntimeMemoryTextAssetInformationWindow);
             RegisterDebuggerWindow("Profiler/Memory/ScriptableObject", m_RuntimeMemoryScriptableObjectInformationWindow);
-            if (GameEntry.GetComponent<ObjectPoolComponent>() != null)
-            {
-                RegisterDebuggerWindow("Profiler/Object Pool", m_ObjectPoolInformationWindow);
-            }
+            RegisterDebuggerWindow("Profiler/Object Pool", m_ObjectPoolInformationWindow);
             RegisterDebuggerWindow("Profiler/Reference Pool", m_ReferencePoolInformationWindow);
-            if (GameEntry.GetComponent<NetworkComponent>() != null)
-            {
-                RegisterDebuggerWindow("Profiler/Network", m_NetworkInformationWindow);
-            }
+            RegisterDebuggerWindow("Profiler/Network", m_NetworkInformationWindow);
             RegisterDebuggerWindow("Other/Settings", m_SettingsWindow);
             RegisterDebuggerWindow("Other/Operations", m_OperationsWindow);
+
+            switch (m_ActiveWindow)
+            {
+                case DebuggerActiveWindowType.AlwaysOpen:
+                    ActiveWindow = true;
+                    break;
+
+                case DebuggerActiveWindowType.OnlyOpenWhenDevelopment:
+                    ActiveWindow = Debug.isDebugBuild;
+                    break;
+
+                case DebuggerActiveWindowType.OnlyOpenInEditor:
+                    ActiveWindow = Application.isEditor;
+                    break;
+
+                default:
+                    ActiveWindow = false;
+                    break;
+            }
         }
 
         private void Update()
@@ -324,7 +320,7 @@ namespace UnityGameFramework.Runtime
         }
 
         /// <summary>
-        /// 获取记录的全部日志。
+        /// 获取记录的所有日志。
         /// </summary>
         /// <param name="results">要获取的日志。</param>
         public void GetRecentLogs(List<LogNode> results)
@@ -418,11 +414,19 @@ namespace UnityGameFramework.Runtime
                 color = m_ConsoleWindow.GetLogStringColor(LogType.Log);
             }
 
-            string title = Utility.Text.Format("<color=#{0}{1}{2}{3}><b>FPS: {4}</b></color>", color.r.ToString("x2"), color.g.ToString("x2"), color.b.ToString("x2"), color.a.ToString("x2"), m_FpsCounter.CurrentFps.ToString("F2"));
+            string title = Utility.Text.Format("<color=#{0:x2}{1:x2}{2:x2}{3:x2}><b>FPS: {4:F2}</b></color>", color.r, color.g, color.b, color.a, m_FpsCounter.CurrentFps);
             if (GUILayout.Button(title, GUILayout.Width(100f), GUILayout.Height(40f)))
             {
                 m_ShowFullWindow = true;
             }
+        }
+
+        private static void CopyToClipboard(string content)
+        {
+            s_TextEditor.text = content;
+            s_TextEditor.OnFocus();
+            s_TextEditor.Copy();
+            s_TextEditor.text = string.Empty;
         }
     }
 }

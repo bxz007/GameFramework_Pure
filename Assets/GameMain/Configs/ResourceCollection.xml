@@ -87,6 +87,7 @@
       <Asset Guid="72e76810224064300b7d32e8322a5d12" ResourceName="Sounds" />
       <Asset Guid="738bdf56857a65f479c367c7b62c4ad7" ResourceName="Entities" />
       <Asset Guid="77cbb7c5404c10242ab59953e0746314" ResourceName="Fonts" />
+      <Asset Guid="7baece6d6c31feb45838fe3c631d731d" ResourceName="DataTables" />
       <Asset Guid="7d5f7699d6d1d48e485ac71126e12061" ResourceName="Entities" />
       <Asset Guid="7e91cd9bad7babf4b975882a4b7453cb" ResourceName="Textures" />
       <Asset Guid="7eae0d2701845a54aa570b07c55dab44" ResourceName="Textures" />
@@ -101,6 +102,7 @@
       <Asset Guid="8e27380ee68aa4a219b4db9018e7da31" ResourceName="Materials" />
       <Asset Guid="9143e2b62ad50488482f9b73672fc331" ResourceName="Entities" />
       <Asset Guid="955000b4d1441470e8cbf94f483228b5" ResourceName="Materials" />
+      <Asset Guid="95e0a7138b8cd3c4895d20481c6d6637" ResourceName="DataTables" />
       <Asset Guid="97b1f8b25cca2bc458cb9d6127c8d186" ResourceName="Materials" />
       <Asset Guid="97d117308cf86924289e81e7e71dd5dd" ResourceName="DataTables" />
       <Asset Guid="9afa958d6d8235941b9badb42aae4370" ResourceName="Meshes" />

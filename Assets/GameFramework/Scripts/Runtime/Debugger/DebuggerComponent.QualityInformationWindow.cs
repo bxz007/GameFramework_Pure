@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------
 // Game Framework
-// Copyright © 2013-2020 Jiang Yin. All rights reserved.
+// Copyright © 2013-2021 Jiang Yin. All rights reserved.
 // Homepage: https://gameframework.cn/
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
@@ -97,8 +97,8 @@ namespace UnityGameFramework.Runtime
                     DrawItem("LOD Bias", QualitySettings.lodBias.ToString());
                     DrawItem("Maximum LOD Level", QualitySettings.maximumLODLevel.ToString());
                     DrawItem("Particle Raycast Budget", QualitySettings.particleRaycastBudget.ToString());
-                    DrawItem("Async Upload Time Slice", Utility.Text.Format("{0} ms", QualitySettings.asyncUploadTimeSlice.ToString()));
-                    DrawItem("Async Upload Buffer Size", Utility.Text.Format("{0} MB", QualitySettings.asyncUploadBufferSize.ToString()));
+                    DrawItem("Async Upload Time Slice", Utility.Text.Format("{0} ms", QualitySettings.asyncUploadTimeSlice));
+                    DrawItem("Async Upload Buffer Size", Utility.Text.Format("{0} MB", QualitySettings.asyncUploadBufferSize));
 #if UNITY_2018_3_OR_NEWER
                     DrawItem("Async Upload Persistent Buffer", QualitySettings.asyncUploadPersistentBuffer.ToString());
 #endif

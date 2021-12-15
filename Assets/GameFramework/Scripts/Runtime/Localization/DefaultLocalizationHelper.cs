@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------
 // Game Framework
-// Copyright © 2013-2020 Jiang Yin. All rights reserved.
+// Copyright © 2013-2021 Jiang Yin. All rights reserved.
 // Homepage: https://gameframework.cn/
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
@@ -171,7 +171,7 @@ namespace UnityGameFramework.Runtime
             }
             catch (Exception exception)
             {
-                Log.Warning("Can not parse dictionary string with exception '{0}'.", exception.ToString());
+                Log.Warning("Can not parse dictionary string with exception '{0}'.", exception);
                 return false;
             }
         }
@@ -210,7 +210,7 @@ namespace UnityGameFramework.Runtime
             }
             catch (Exception exception)
             {
-                Log.Warning("Can not parse dictionary bytes with exception '{0}'.", exception.ToString());
+                Log.Warning("Can not parse dictionary bytes with exception '{0}'.", exception);
                 return false;
             }
         }

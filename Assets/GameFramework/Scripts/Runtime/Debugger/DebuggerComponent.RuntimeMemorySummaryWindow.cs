@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------
 // Game Framework
-// Copyright © 2013-2020 Jiang Yin. All rights reserved.
+// Copyright © 2013-2021 Jiang Yin. All rights reserved.
 // Homepage: https://gameframework.cn/
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
@@ -20,6 +20,7 @@ namespace UnityGameFramework.Runtime
         private sealed partial class RuntimeMemorySummaryWindow : ScrollableDebuggerWindowBase
         {
             private readonly List<Record> m_Records = new List<Record>();
+            private readonly Comparison<Record> m_RecordComparer = RecordComparer;
             private DateTime m_SampleTime = DateTime.MinValue;
             private int m_SampleCount = 0;
             private long m_SampleSize = 0L;
@@ -40,7 +41,7 @@ namespace UnityGameFramework.Runtime
                     }
                     else
                     {
-                        GUILayout.Label(Utility.Text.Format("<b>{0} Objects ({1}) obtained at {2}.</b>", m_SampleCount.ToString(), GetByteLengthString(m_SampleSize), m_SampleTime.ToString("yyyy-MM-dd HH:mm:ss")));
+                        GUILayout.Label(Utility.Text.Format("<b>{0} Objects ({1}) obtained at {2:yyyy-MM-dd HH:mm:ss}.</b>", m_SampleCount, GetByteLengthString(m_SampleSize), m_SampleTime.ToLocalTime()));
 
                         GUILayout.BeginHorizontal();
                         {
@@ -68,7 +69,7 @@ namespace UnityGameFramework.Runtime
             private void TakeSample()
             {
                 m_Records.Clear();
-                m_SampleTime = DateTime.Now;
+                m_SampleTime = DateTime.UtcNow;
                 m_SampleCount = 0;
                 m_SampleSize = 0L;
 
@@ -105,10 +106,10 @@ namespace UnityGameFramework.Runtime
                     record.Size += sampleSize;
                 }
 
-                m_Records.Sort(RecordComparer);
+                m_Records.Sort(m_RecordComparer);
             }
 
-            private int RecordComparer(Record a, Record b)
+            private static int RecordComparer(Record a, Record b)
             {
                 int result = b.Size.CompareTo(a.Size);
                 if (result != 0)

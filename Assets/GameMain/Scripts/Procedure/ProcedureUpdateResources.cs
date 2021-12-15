@@ -29,9 +29,9 @@ namespace GameMain
             base.OnEnter(procedureOwner);
 
             m_UpdateResourcesComplete = false;
-            m_UpdateCount = procedureOwner.GetData<VarInt>("UpdateResourceCount");
+            m_UpdateCount = procedureOwner.GetData<VarInt32>("UpdateResourceCount");
             procedureOwner.RemoveData("UpdateResourceCount");
-            m_UpdateTotalZipLength = procedureOwner.GetData<VarLong>("UpdateResourceTotalZipLength");
+            m_UpdateTotalZipLength = procedureOwner.GetData<VarInt64>("UpdateResourceTotalZipLength");
             procedureOwner.RemoveData("UpdateResourceTotalZipLength");
             m_UpdateSuccessCount = 0;
             m_UpdateLengthData.Clear();
@@ -204,7 +204,7 @@ namespace GameMain
             {
                 if (m_UpdateLengthData[i].Name == ne.Name)
                 {
-                    m_UpdateLengthData[i].Length = ne.ZipLength;
+                    m_UpdateLengthData[i].Length = ne.CompressedLength;
                     m_UpdateSuccessCount++;
                     RefreshProgress();
                     return;

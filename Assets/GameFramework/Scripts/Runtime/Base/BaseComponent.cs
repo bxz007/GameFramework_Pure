@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------
 // Game Framework
-// Copyright © 2013-2020 Jiang Yin. All rights reserved.
+// Copyright © 2013-2021 Jiang Yin. All rights reserved.
 // Homepage: https://gameframework.cn/
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
@@ -31,13 +31,16 @@ namespace UnityGameFramework.Runtime
         private Language m_EditorLanguage = Language.Unspecified;
 
         [SerializeField]
+        private string m_TextHelperTypeName = "UnityGameFramework.Runtime.DefaultTextHelper";
+
+        [SerializeField]
         private string m_VersionHelperTypeName = "UnityGameFramework.Runtime.DefaultVersionHelper";
 
         [SerializeField]
         private string m_LogHelperTypeName = "UnityGameFramework.Runtime.DefaultLogHelper";
 
         [SerializeField]
-        private string m_ZipHelperTypeName = "UnityGameFramework.Runtime.DefaultZipHelper";
+        private string m_CompressionHelperTypeName = "UnityGameFramework.Runtime.DefaultCompressionHelper";
 
         [SerializeField]
         private string m_JsonHelperTypeName = "UnityGameFramework.Runtime.DefaultJsonHelper";
@@ -183,14 +186,15 @@ namespace UnityGameFramework.Runtime
         {
             base.Awake();
 
+            InitTextHelper();
             InitVersionHelper();
             InitLogHelper();
             Log.Info("Game Framework Version: {0}", GameFramework.Version.GameFrameworkVersion);
-            Log.Info("Game Version: {0} ({1})", GameFramework.Version.GameVersion, GameFramework.Version.InternalGameVersion.ToString());
+            Log.Info("Game Version: {0} ({1})", GameFramework.Version.GameVersion, GameFramework.Version.InternalGameVersion);
             Log.Info("Unity Version: {0}", Application.unityVersion);
 
 #if UNITY_5_3_OR_NEWER || UNITY_5_3
-            InitZipHelper();
+            InitCompressionHelper();
             InitJsonHelper();
 
             Utility.Converter.ScreenDpi = Screen.dpi;
@@ -285,6 +289,30 @@ namespace UnityGameFramework.Runtime
             Destroy(gameObject);
         }
 
+        private void InitTextHelper()
+        {
+            if (string.IsNullOrEmpty(m_TextHelperTypeName))
+            {
+                return;
+            }
+
+            Type textHelperType = Utility.Assembly.GetType(m_TextHelperTypeName);
+            if (textHelperType == null)
+            {
+                Log.Error("Can not find text helper type '{0}'.", m_TextHelperTypeName);
+                return;
+            }
+
+            Utility.Text.ITextHelper textHelper = (Utility.Text.ITextHelper)Activator.CreateInstance(textHelperType);
+            if (textHelper == null)
+            {
+                Log.Error("Can not create text helper instance '{0}'.", m_TextHelperTypeName);
+                return;
+            }
+
+            Utility.Text.SetTextHelper(textHelper);
+        }
+
         private void InitVersionHelper()
         {
             if (string.IsNullOrEmpty(m_VersionHelperTypeName))
@@ -329,28 +357,28 @@ namespace UnityGameFramework.Runtime
             GameFrameworkLog.SetLogHelper(logHelper);
         }
 
-        private void InitZipHelper()
+        private void InitCompressionHelper()
         {
-            if (string.IsNullOrEmpty(m_ZipHelperTypeName))
+            if (string.IsNullOrEmpty(m_CompressionHelperTypeName))
             {
                 return;
             }
 
-            Type zipHelperType = Utility.Assembly.GetType(m_ZipHelperTypeName);
-            if (zipHelperType == null)
+            Type compressionHelperType = Utility.Assembly.GetType(m_CompressionHelperTypeName);
+            if (compressionHelperType == null)
             {
-                Log.Error("Can not find Zip helper type '{0}'.", m_ZipHelperTypeName);
+                Log.Error("Can not find compression helper type '{0}'.", m_CompressionHelperTypeName);
                 return;
             }
 
-            Utility.Zip.IZipHelper zipHelper = (Utility.Zip.IZipHelper)Activator.CreateInstance(zipHelperType);
-            if (zipHelper == null)
+            Utility.Compression.ICompressionHelper compressionHelper = (Utility.Compression.ICompressionHelper)Activator.CreateInstance(compressionHelperType);
+            if (compressionHelper == null)
             {
-                Log.Error("Can not create Zip helper instance '{0}'.", m_ZipHelperTypeName);
+                Log.Error("Can not create compression helper instance '{0}'.", m_CompressionHelperTypeName);
                 return;
             }
 
-            Utility.Zip.SetZipHelper(zipHelper);
+            Utility.Compression.SetCompressionHelper(compressionHelper);
         }
 
         private void InitJsonHelper()

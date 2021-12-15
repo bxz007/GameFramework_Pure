@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------
 // Game Framework
-// Copyright © 2013-2020 Jiang Yin. All rights reserved.
+// Copyright © 2013-2021 Jiang Yin. All rights reserved.
 // Homepage: https://gameframework.cn/
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
@@ -20,19 +20,9 @@ namespace UnityGameFramework.Runtime
     {
         private const string SettingFileName = "GameFrameworkSetting.dat";
 
+        private string m_FilePath = null;
         private DefaultSetting m_Settings = null;
         private DefaultSettingSerializer m_Serializer = null;
-
-        /// <summary>
-        /// 获取游戏配置文件路径。
-        /// </summary>
-        public virtual string FilePath
-        {
-            get
-            {
-                return Utility.Path.GetRegularPath(Path.Combine(Application.persistentDataPath, SettingFileName));
-            }
-        }
 
         /// <summary>
         /// 获取游戏配置项数量。
@@ -41,7 +31,40 @@ namespace UnityGameFramework.Runtime
         {
             get
             {
-                return m_Settings != null ? m_Settings.Count : -1;
+                return m_Settings != null ? m_Settings.Count : 0;
+            }
+        }
+
+        /// <summary>
+        /// 获取游戏配置存储文件路径。
+        /// </summary>
+        public string FilePath
+        {
+            get
+            {
+                return m_FilePath;
+            }
+        }
+
+        /// <summary>
+        /// 获取游戏配置。
+        /// </summary>
+        public DefaultSetting Setting
+        {
+            get
+            {
+                return m_Settings;
+            }
+        }
+
+        /// <summary>
+        /// 获取游戏配置序列化器。
+        /// </summary>
+        public DefaultSettingSerializer Serializer
+        {
+            get
+            {
+                return m_Serializer;
             }
         }
 
@@ -53,12 +76,12 @@ namespace UnityGameFramework.Runtime
         {
             try
             {
-                if (!File.Exists(FilePath))
+                if (!File.Exists(m_FilePath))
                 {
                     return true;
                 }
 
-                using (FileStream fileStream = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
+                using (FileStream fileStream = new FileStream(m_FilePath, FileMode.Open, FileAccess.Read))
                 {
                     m_Serializer.Deserialize(fileStream);
                     return true;
@@ -66,7 +89,7 @@ namespace UnityGameFramework.Runtime
             }
             catch (Exception exception)
             {
-                Log.Warning("Load settings failure with exception '{0}'.", exception.ToString());
+                Log.Warning("Load settings failure with exception '{0}'.", exception);
                 return false;
             }
         }
@@ -79,14 +102,14 @@ namespace UnityGameFramework.Runtime
         {
             try
             {
-                using (FileStream fileStream = new FileStream(FilePath, FileMode.Create, FileAccess.Write))
+                using (FileStream fileStream = new FileStream(m_FilePath, FileMode.Create, FileAccess.Write))
                 {
                     return m_Serializer.Serialize(fileStream, m_Settings);
                 }
             }
             catch (Exception exception)
             {
-                Log.Warning("Save settings failure with exception '{0}'.", exception.ToString());
+                Log.Warning("Save settings failure with exception '{0}'.", exception);
                 return false;
             }
         }
@@ -342,21 +365,22 @@ namespace UnityGameFramework.Runtime
 
         private void Awake()
         {
+            m_FilePath = Utility.Path.GetRegularPath(Path.Combine(Application.persistentDataPath, SettingFileName));
             m_Settings = new DefaultSetting();
             m_Serializer = new DefaultSettingSerializer();
             m_Serializer.RegisterSerializeCallback(0, SerializeDefaultSettingCallback);
             m_Serializer.RegisterDeserializeCallback(0, DeserializeDefaultSettingCallback);
         }
 
-        private bool SerializeDefaultSettingCallback(BinaryWriter binaryWriter, DefaultSetting defaultSetting)
+        private bool SerializeDefaultSettingCallback(Stream stream, DefaultSetting defaultSetting)
         {
-            m_Settings.Serialize(binaryWriter);
+            m_Settings.Serialize(stream);
             return true;
         }
 
-        private DefaultSetting DeserializeDefaultSettingCallback(BinaryReader binaryReader)
+        private DefaultSetting DeserializeDefaultSettingCallback(Stream stream)
         {
-            m_Settings.Deserialize(binaryReader);
+            m_Settings.Deserialize(stream);
             return m_Settings;
         }
     }

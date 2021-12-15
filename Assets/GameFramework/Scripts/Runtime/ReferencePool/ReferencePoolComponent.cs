@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------
 // Game Framework
-// Copyright © 2013-2020 Jiang Yin. All rights reserved.
+// Copyright © 2013-2021 Jiang Yin. All rights reserved.
 // Homepage: https://gameframework.cn/
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
@@ -11,7 +11,7 @@ using UnityEngine;
 namespace UnityGameFramework.Runtime
 {
     /// <summary>
-    /// 基础组件。
+    /// 引用池组件。
     /// </summary>
     [DisallowMultipleComponent]
     [AddComponentMenu("Game Framework/ReferencePool")]
@@ -37,6 +37,14 @@ namespace UnityGameFramework.Runtime
                     Log.Info("Strict checking is enabled for the Reference Pool. It will drastically affect the performance.");
                 }
             }
+        }
+
+        /// <summary>
+        /// 游戏框架组件初始化。
+        /// </summary>
+        protected override void Awake()
+        {
+            base.Awake();
         }
 
         private void Start()

@@ -1,0 +1,12 @@
+{
+"ForceUpdateGame":false,
+"LatestGameVersion": "0.1.0",
+"InternalGameVersion": 0,
+"InternalResourceVersion": 11,
+"UpdatePrefixUri": "http://10.10.3.212/Platform_Windows/Windows",
+"VersionListLength": 7274,
+"VersionListHashCode": -388087509,
+"VersionListZipLength": 2559,
+"VersionListZipHashCode":-1055917803,
+"END_ OF JSON": ""
+}

@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------
 // Game Framework
-// Copyright © 2013-2020 Jiang Yin. All rights reserved.
+// Copyright © 2013-2021 Jiang Yin. All rights reserved.
 // Homepage: https://gameframework.cn/
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
@@ -22,6 +22,7 @@ namespace UnityGameFramework.Runtime
             private const int ShowSampleCount = 300;
 
             private readonly List<Sample> m_Samples = new List<Sample>();
+            private readonly Comparison<Sample> m_SampleComparer = SampleComparer;
             private DateTime m_SampleTime = DateTime.MinValue;
             private long m_SampleSize = 0L;
             private long m_DuplicateSampleSize = 0L;
@@ -46,11 +47,11 @@ namespace UnityGameFramework.Runtime
                     {
                         if (m_DuplicateSimpleCount > 0)
                         {
-                            GUILayout.Label(Utility.Text.Format("<b>{0} {1}s ({2}) obtained at {3}, while {4} {1}s ({5}) might be duplicated.</b>", m_Samples.Count.ToString(), typeName, GetByteLengthString(m_SampleSize), m_SampleTime.ToString("yyyy-MM-dd HH:mm:ss"), m_DuplicateSimpleCount.ToString(), GetByteLengthString(m_DuplicateSampleSize)));
+                            GUILayout.Label(Utility.Text.Format("<b>{0} {1}s ({2}) obtained at {3:yyyy-MM-dd HH:mm:ss}, while {4} {1}s ({5}) might be duplicated.</b>", m_Samples.Count, typeName, GetByteLengthString(m_SampleSize), m_SampleTime.ToLocalTime(), m_DuplicateSimpleCount, GetByteLengthString(m_DuplicateSampleSize)));
                         }
                         else
                         {
-                            GUILayout.Label(Utility.Text.Format("<b>{0} {1}s ({2}) obtained at {3}.</b>", m_Samples.Count.ToString(), typeName, GetByteLengthString(m_SampleSize), m_SampleTime.ToString("yyyy-MM-dd HH:mm:ss")));
+                            GUILayout.Label(Utility.Text.Format("<b>{0} {1}s ({2}) obtained at {3:yyyy-MM-dd HH:mm:ss}.</b>", m_Samples.Count, typeName, GetByteLengthString(m_SampleSize), m_SampleTime.ToLocalTime()));
                         }
 
                         if (m_Samples.Count > 0)
@@ -88,7 +89,7 @@ namespace UnityGameFramework.Runtime
 
             private void TakeSample()
             {
-                m_SampleTime = DateTime.Now;
+                m_SampleTime = DateTime.UtcNow;
                 m_SampleSize = 0L;
                 m_DuplicateSampleSize = 0L;
                 m_DuplicateSimpleCount = 0;
@@ -107,7 +108,7 @@ namespace UnityGameFramework.Runtime
                     m_Samples.Add(new Sample(samples[i].name, samples[i].GetType().Name, sampleSize));
                 }
 
-                m_Samples.Sort(SampleComparer);
+                m_Samples.Sort(m_SampleComparer);
 
                 for (int i = 1; i < m_Samples.Count; i++)
                 {
@@ -120,7 +121,7 @@ namespace UnityGameFramework.Runtime
                 }
             }
 
-            private int SampleComparer(Sample a, Sample b)
+            private static int SampleComparer(Sample a, Sample b)
             {
                 int result = b.Size.CompareTo(a.Size);
                 if (result != 0)

@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------
 // Game Framework
-// Copyright © 2013-2020 Jiang Yin. All rights reserved.
+// Copyright © 2013-2021 Jiang Yin. All rights reserved.
 // Homepage: https://gameframework.cn/
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
@@ -50,8 +50,8 @@ namespace UnityGameFramework.Runtime
                     DrawItem("Game Identifier", Application.bundleIdentifier);
 #endif
                     DrawItem("Game Framework Version", Version.GameFrameworkVersion);
-                    DrawItem("Game Version", Utility.Text.Format("{0} ({1})", Version.GameVersion, Version.InternalGameVersion.ToString()));
-                    DrawItem("Resource Version", m_BaseComponent.EditorResourceMode ? "Unavailable in editor resource mode" : (string.IsNullOrEmpty(m_ResourceComponent.ApplicableGameVersion) ? "Unknown" : Utility.Text.Format("{0} ({1})", m_ResourceComponent.ApplicableGameVersion, m_ResourceComponent.InternalResourceVersion.ToString())));
+                    DrawItem("Game Version", Utility.Text.Format("{0} ({1})", Version.GameVersion, Version.InternalGameVersion));
+                    DrawItem("Resource Version", m_BaseComponent.EditorResourceMode ? "Unavailable in editor resource mode" : (string.IsNullOrEmpty(m_ResourceComponent.ApplicableGameVersion) ? "Unknown" : Utility.Text.Format("{0} ({1})", m_ResourceComponent.ApplicableGameVersion, m_ResourceComponent.InternalResourceVersion)));
                     DrawItem("Application Version", Application.version);
                     DrawItem("Unity Version", Application.unityVersion);
                     DrawItem("Platform", Application.platform.ToString());
@@ -78,6 +78,7 @@ namespace UnityGameFramework.Runtime
                     DrawItem("Is Mobile Platform", Application.isMobilePlatform.ToString());
                     DrawItem("Is Console Platform", Application.isConsolePlatform.ToString());
                     DrawItem("Is Editor", Application.isEditor.ToString());
+                    DrawItem("Is Debug Build", Debug.isDebugBuild.ToString());
 #if UNITY_5_6_OR_NEWER
                     DrawItem("Is Focused", Application.isFocused.ToString());
 #endif

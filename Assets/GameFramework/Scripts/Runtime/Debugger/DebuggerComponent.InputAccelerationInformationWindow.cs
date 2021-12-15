@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------
 // Game Framework
-// Copyright © 2013-2020 Jiang Yin. All rights reserved.
+// Copyright © 2013-2021 Jiang Yin. All rights reserved.
 // Homepage: https://gameframework.cn/
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
@@ -28,7 +28,7 @@ namespace UnityGameFramework.Runtime
 
             private string GetAccelerationEventString(AccelerationEvent accelerationEvent)
             {
-                return Utility.Text.Format("{0}, {1}", accelerationEvent.acceleration.ToString(), accelerationEvent.deltaTime.ToString());
+                return Utility.Text.Format("{0}, {1}", accelerationEvent.acceleration, accelerationEvent.deltaTime);
             }
 
             private string GetAccelerationEventsString(AccelerationEvent[] accelerationEvents)

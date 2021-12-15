@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------
 // Game Framework
-// Copyright © 2013-2020 Jiang Yin. All rights reserved.
+// Copyright © 2013-2021 Jiang Yin. All rights reserved.
 // Homepage: https://gameframework.cn/
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
@@ -22,21 +22,24 @@ namespace UnityGameFramework.Editor
 
         private SerializedProperty m_EditorResourceMode = null;
         private SerializedProperty m_EditorLanguage = null;
+        private SerializedProperty m_TextHelperTypeName = null;
         private SerializedProperty m_VersionHelperTypeName = null;
         private SerializedProperty m_LogHelperTypeName = null;
-        private SerializedProperty m_ZipHelperTypeName = null;
+        private SerializedProperty m_CompressionHelperTypeName = null;
         private SerializedProperty m_JsonHelperTypeName = null;
         private SerializedProperty m_FrameRate = null;
         private SerializedProperty m_GameSpeed = null;
         private SerializedProperty m_RunInBackground = null;
         private SerializedProperty m_NeverSleep = null;
 
+        private string[] m_TextHelperTypeNames = null;
+        private int m_TextHelperTypeNameIndex = 0;
         private string[] m_VersionHelperTypeNames = null;
         private int m_VersionHelperTypeNameIndex = 0;
         private string[] m_LogHelperTypeNames = null;
         private int m_LogHelperTypeNameIndex = 0;
-        private string[] m_ZipHelperTypeNames = null;
-        private int m_ZipHelperTypeNameIndex = 0;
+        private string[] m_CompressionHelperTypeNames = null;
+        private int m_CompressionHelperTypeNameIndex = 0;
         private string[] m_JsonHelperTypeNames = null;
         private int m_JsonHelperTypeNameIndex = 0;
 
@@ -62,6 +65,13 @@ namespace UnityGameFramework.Editor
                 {
                     EditorGUILayout.LabelField("Global Helpers", EditorStyles.boldLabel);
 
+                    int textHelperSelectedIndex = EditorGUILayout.Popup("Text Helper", m_TextHelperTypeNameIndex, m_TextHelperTypeNames);
+                    if (textHelperSelectedIndex != m_TextHelperTypeNameIndex)
+                    {
+                        m_TextHelperTypeNameIndex = textHelperSelectedIndex;
+                        m_TextHelperTypeName.stringValue = textHelperSelectedIndex <= 0 ? null : m_TextHelperTypeNames[textHelperSelectedIndex];
+                    }
+
                     int versionHelperSelectedIndex = EditorGUILayout.Popup("Version Helper", m_VersionHelperTypeNameIndex, m_VersionHelperTypeNames);
                     if (versionHelperSelectedIndex != m_VersionHelperTypeNameIndex)
                     {
@@ -76,11 +86,11 @@ namespace UnityGameFramework.Editor
                         m_LogHelperTypeName.stringValue = logHelperSelectedIndex <= 0 ? null : m_LogHelperTypeNames[logHelperSelectedIndex];
                     }
 
-                    int zipHelperSelectedIndex = EditorGUILayout.Popup("Zip Helper", m_ZipHelperTypeNameIndex, m_ZipHelperTypeNames);
-                    if (zipHelperSelectedIndex != m_ZipHelperTypeNameIndex)
+                    int compressionHelperSelectedIndex = EditorGUILayout.Popup("Compression Helper", m_CompressionHelperTypeNameIndex, m_CompressionHelperTypeNames);
+                    if (compressionHelperSelectedIndex != m_CompressionHelperTypeNameIndex)
                     {
-                        m_ZipHelperTypeNameIndex = zipHelperSelectedIndex;
-                        m_ZipHelperTypeName.stringValue = zipHelperSelectedIndex <= 0 ? null : m_ZipHelperTypeNames[zipHelperSelectedIndex];
+                        m_CompressionHelperTypeNameIndex = compressionHelperSelectedIndex;
+                        m_CompressionHelperTypeName.stringValue = compressionHelperSelectedIndex <= 0 ? null : m_CompressionHelperTypeNames[compressionHelperSelectedIndex];
                     }
 
                     int jsonHelperSelectedIndex = EditorGUILayout.Popup("JSON Helper", m_JsonHelperTypeNameIndex, m_JsonHelperTypeNames);
@@ -170,9 +180,10 @@ namespace UnityGameFramework.Editor
         {
             m_EditorResourceMode = serializedObject.FindProperty("m_EditorResourceMode");
             m_EditorLanguage = serializedObject.FindProperty("m_EditorLanguage");
+            m_TextHelperTypeName = serializedObject.FindProperty("m_TextHelperTypeName");
             m_VersionHelperTypeName = serializedObject.FindProperty("m_VersionHelperTypeName");
             m_LogHelperTypeName = serializedObject.FindProperty("m_LogHelperTypeName");
-            m_ZipHelperTypeName = serializedObject.FindProperty("m_ZipHelperTypeName");
+            m_CompressionHelperTypeName = serializedObject.FindProperty("m_CompressionHelperTypeName");
             m_JsonHelperTypeName = serializedObject.FindProperty("m_JsonHelperTypeName");
             m_FrameRate = serializedObject.FindProperty("m_FrameRate");
             m_GameSpeed = serializedObject.FindProperty("m_GameSpeed");
@@ -184,12 +195,30 @@ namespace UnityGameFramework.Editor
 
         private void RefreshTypeNames()
         {
+            List<string> textHelperTypeNames = new List<string>
+            {
+                NoneOptionName
+            };
+
+            textHelperTypeNames.AddRange(Type.GetRuntimeTypeNames(typeof(Utility.Text.ITextHelper)));
+            m_TextHelperTypeNames = textHelperTypeNames.ToArray();
+            m_TextHelperTypeNameIndex = 0;
+            if (!string.IsNullOrEmpty(m_TextHelperTypeName.stringValue))
+            {
+                m_TextHelperTypeNameIndex = textHelperTypeNames.IndexOf(m_TextHelperTypeName.stringValue);
+                if (m_TextHelperTypeNameIndex <= 0)
+                {
+                    m_TextHelperTypeNameIndex = 0;
+                    m_TextHelperTypeName.stringValue = null;
+                }
+            }
+
             List<string> versionHelperTypeNames = new List<string>
             {
                 NoneOptionName
             };
 
-            versionHelperTypeNames.AddRange(Type.GetTypeNames(typeof(Version.IVersionHelper)));
+            versionHelperTypeNames.AddRange(Type.GetRuntimeTypeNames(typeof(Version.IVersionHelper)));
             m_VersionHelperTypeNames = versionHelperTypeNames.ToArray();
             m_VersionHelperTypeNameIndex = 0;
             if (!string.IsNullOrEmpty(m_VersionHelperTypeName.stringValue))
@@ -207,7 +236,7 @@ namespace UnityGameFramework.Editor
                 NoneOptionName
             };
 
-            logHelperTypeNames.AddRange(Type.GetTypeNames(typeof(GameFrameworkLog.ILogHelper)));
+            logHelperTypeNames.AddRange(Type.GetRuntimeTypeNames(typeof(GameFrameworkLog.ILogHelper)));
             m_LogHelperTypeNames = logHelperTypeNames.ToArray();
             m_LogHelperTypeNameIndex = 0;
             if (!string.IsNullOrEmpty(m_LogHelperTypeName.stringValue))
@@ -220,21 +249,21 @@ namespace UnityGameFramework.Editor
                 }
             }
 
-            List<string> zipHelperTypeNames = new List<string>
+            List<string> compressionHelperTypeNames = new List<string>
             {
                 NoneOptionName
             };
 
-            zipHelperTypeNames.AddRange(Type.GetTypeNames(typeof(Utility.Zip.IZipHelper)));
-            m_ZipHelperTypeNames = zipHelperTypeNames.ToArray();
-            m_ZipHelperTypeNameIndex = 0;
-            if (!string.IsNullOrEmpty(m_ZipHelperTypeName.stringValue))
+            compressionHelperTypeNames.AddRange(Type.GetRuntimeTypeNames(typeof(Utility.Compression.ICompressionHelper)));
+            m_CompressionHelperTypeNames = compressionHelperTypeNames.ToArray();
+            m_CompressionHelperTypeNameIndex = 0;
+            if (!string.IsNullOrEmpty(m_CompressionHelperTypeName.stringValue))
             {
-                m_ZipHelperTypeNameIndex = zipHelperTypeNames.IndexOf(m_ZipHelperTypeName.stringValue);
-                if (m_ZipHelperTypeNameIndex <= 0)
+                m_CompressionHelperTypeNameIndex = compressionHelperTypeNames.IndexOf(m_CompressionHelperTypeName.stringValue);
+                if (m_CompressionHelperTypeNameIndex <= 0)
                 {
-                    m_ZipHelperTypeNameIndex = 0;
-                    m_ZipHelperTypeName.stringValue = null;
+                    m_CompressionHelperTypeNameIndex = 0;
+                    m_CompressionHelperTypeName.stringValue = null;
                 }
             }
 
@@ -243,7 +272,7 @@ namespace UnityGameFramework.Editor
                 NoneOptionName
             };
 
-            jsonHelperTypeNames.AddRange(Type.GetTypeNames(typeof(Utility.Json.IJsonHelper)));
+            jsonHelperTypeNames.AddRange(Type.GetRuntimeTypeNames(typeof(Utility.Json.IJsonHelper)));
             m_JsonHelperTypeNames = jsonHelperTypeNames.ToArray();
             m_JsonHelperTypeNameIndex = 0;
             if (!string.IsNullOrEmpty(m_JsonHelperTypeName.stringValue))
