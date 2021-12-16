@@ -1,16 +1,11 @@
 {
-    "name": "GameMain.Editor",
+    "name": "Hotfix",
     "references": [
-        "GameMain",
-        "UnityGameFramework.Editor",
-        "UnityGameFramework.Runtime",
-        "ILRuntime"
+        "GUID:3c279fd625450ab49b24c241de8e80ef"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": false,
+    "allowUnsafeCode": true,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,

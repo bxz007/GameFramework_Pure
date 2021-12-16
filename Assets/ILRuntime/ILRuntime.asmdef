@@ -1,9 +1,6 @@
 {
-    "name": "GameMain",
-    "references": [
-        "GUID:363c5eb08ff8e6a439b85e37b8c20d96",
-        "GUID:c075f931c13771d43bc395cd73d232b3"
-    ],
+    "name": "ILRuntime",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": true,
