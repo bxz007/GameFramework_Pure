@@ -17,7 +17,7 @@ public class TestILRuntime : MonoBehaviour
 #if UNITY_ANDROID
     WWW www = new WWW(Application.streamingAssetsPath + "/Hotfix.dll");
 #else
-        WWW www = new WWW("file:///" + Application.streamingAssetsPath + "/hotfix.dll");
+        WWW www = new WWW("file:///" + Application.streamingAssetsPath + "/GameMain.Hotfix.dll");
 #endif
         while (!www.isDone)
             yield return null;
@@ -28,7 +28,7 @@ public class TestILRuntime : MonoBehaviour
 #if UNITY_ANDROID
     www = new WWW(Application.streamingAssetsPath + "/Hotfix.pdb");
 #else
-        www = new WWW("file:///" + Application.streamingAssetsPath + "/hotfix.pdb");
+        www = new WWW("file:///" + Application.streamingAssetsPath + "/GameMain.Hotfix.pdb");
 #endif
         while (!www.isDone)
             yield return null;
@@ -44,6 +44,6 @@ public class TestILRuntime : MonoBehaviour
 
     void OnILRuntimeInitialized()
     {
-        appdomain.Invoke("Hotfix.TestHotFixMain", "Initialize", null, null);
+        appdomain.Invoke("GameMain.Hotfix.TestHotFixMain", "Initialize", null, null);
     }
 }
