@@ -20,6 +20,13 @@ namespace GameMain
             private set;
         }
 
+        public static ILRuntimeComponent ILRuntime
+        {
+            get;
+            private set;
+        }
+
+
         public static TimerComponent TimerManager
         {
             get;
@@ -36,6 +43,7 @@ namespace GameMain
         {
             BuiltinData = UnityGameFramework.Runtime.GameEntry.GetComponent<BuiltinDataComponent>();
             HPBar = UnityGameFramework.Runtime.GameEntry.GetComponent<HPBarComponent>();
+            ILRuntime = UnityGameFramework.Runtime.GameEntry.GetComponent<ILRuntimeComponent>();
             TimerManager = UnityGameFramework.Runtime.GameEntry.GetComponent<TimerComponent>();
         }
     }

@@ -83,8 +83,19 @@ namespace GameMain
                 }
             }
 
-            procedureOwner.SetData<VarInt32>("NextSceneId", GameEntry.Config.GetInt("Scene.Menu"));
-            ChangeState<ProcedureChangeScene>(procedureOwner);
+            //不使用ILRuntime模式 或者 使用ILRuntime模式并且热更新DLL已加载完成时，进入下一个场景
+            if (!GameEntry.ILRuntime.IsILRuntimeMode)
+            {
+                procedureOwner.SetData<VarInt32>("NextSceneId", GameEntry.Config.GetInt("Scene.Menu"));
+                ChangeState<ProcedureChangeScene>(procedureOwner);
+            }
+            else if (GameEntry.ILRuntime.HotfixLoaded)
+            {
+                //调用热更新层入口方法,开始热更新层流程
+                GameEntry.ILRuntime.HotfixStart();
+                //这里实际上已经正式加入热更了
+                //TODO 以后将其切换至其它流程
+            }
         }
 
         private void PreloadResources()
@@ -103,6 +114,9 @@ namespace GameMain
 
             // Preload fonts
             LoadFont("MainFont");
+
+            //加载热更新DLL
+            GameEntry.ILRuntime.LoadHotfixDLL();
         }
 
         private void LoadConfig(string configName)

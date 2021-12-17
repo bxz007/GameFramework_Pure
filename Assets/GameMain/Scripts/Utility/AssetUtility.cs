@@ -60,5 +60,9 @@ namespace GameMain
         {
             return Utility.Text.Format("Assets/GameMain/UI/UISounds/{0}.wav", assetName);
         }
+        public static string GetHotfixDLLAsset(string assetName)
+        {
+            return Utility.Text.Format("Assets/GameMain/HotfixDLL/{0}.bytes", assetName);
+        }
     }
 }

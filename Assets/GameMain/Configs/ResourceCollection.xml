@@ -6,6 +6,7 @@
       <Resource Name="DataTables" FileSystem="GameData" LoadType="0" Packed="True" ResourceGroups="Base" />
       <Resource Name="Entities" FileSystem="Resources" LoadType="0" Packed="True" />
       <Resource Name="Fonts" FileSystem="UI" LoadType="0" Packed="True" ResourceGroups="Base" />
+      <Resource Name="HotfixDLL/Hotfix" LoadType="0" Packed="False" />
       <Resource Name="Localization/Dictionaries" Variant="en-us" FileSystem="UI" LoadType="0" Packed="True" ResourceGroups="Base" />
       <Resource Name="Localization/Dictionaries" Variant="ko-kr" FileSystem="UI" LoadType="0" Packed="True" ResourceGroups="Base" />
       <Resource Name="Localization/Dictionaries" Variant="zh-cn" FileSystem="UI" LoadType="0" Packed="True" ResourceGroups="Base" />
@@ -95,6 +96,7 @@
       <Asset Guid="7fd11dc5d29076d469d414dec2818f11" ResourceName="Configs" />
       <Asset Guid="834bfaee90a9d4e04b1e8c1ca22cc88e" ResourceName="Entities" />
       <Asset Guid="836be25be3e1e8c41ae5545bc8a9a4d7" ResourceName="Textures" />
+      <Asset Guid="84a489f1b31d95445b72330867bd66dc" ResourceName="HotfixDLL/Hotfix" />
       <Asset Guid="8940b037a9b441c4cbd3d2b446838424" ResourceName="Materials" />
       <Asset Guid="8b1acacd22538f34cb85287a0781ea5e" ResourceName="DataTables" />
       <Asset Guid="8cf749fdfa5edc3478d16893efeaa0eb" ResourceName="Entities" />
@@ -152,6 +154,7 @@
       <Asset Guid="f438a72a91e1c3c4a9ced40888ffec96" ResourceName="UI/UISprites/Icons" />
       <Asset Guid="f4ec271e525e14ca9927a07e6a2e153d" ResourceName="Entities" />
       <Asset Guid="f6db5bbdfe0e9894798706814cd6b336" ResourceName="Textures" />
+      <Asset Guid="fccaf40b1c51ae54eb2cdbdcc88856f1" ResourceName="HotfixDLL/Hotfix" />
       <Asset Guid="fd3cbf51780694849b9b019b36a3938e" ResourceName="Textures" />
       <Asset Guid="fdb5edd099d06b045af609ba3172400a" ResourceName="DataTables" />
       <Asset Guid="fedd25a3c60e7ae499fc6efab9ee180b" ResourceName="Entities" />
